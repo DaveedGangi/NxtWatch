@@ -1,0 +1,16 @@
+.Link {
+  text-decoration: none;
+  margin-bottom: 22px;
+  color: #0f0f0f;
+  font-family: Roboto;
+}
+
+.loader-container {
+  text-align: center;
+  width: 700px;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
