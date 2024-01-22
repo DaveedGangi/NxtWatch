@@ -10,7 +10,14 @@ import NavBar from '../NavbarFolder'
 
 import LeftSideNav from '../LeftSideNavBar'
 
-import {DisplayFlexGaming, Heading, GamingStore, ImageGame} from './Gaming'
+import {
+  DisplayFlexGaming,
+  Heading,
+  GamingStore,
+  ImageGame,
+  UlGame,
+  Lists,
+} from './Gaming'
 
 import ThemeContext from '../context/ThemeContext'
 
@@ -70,15 +77,17 @@ class GamingVideo extends Component {
       <div>
         <img
           src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
-          alt="failureView"
+          alt="failure view"
         />
       </div>
-      <p>Oops! Something Went Wrong</p>
+      <h1>Oops! Something Went Wrong</h1>
       <p>
         We are having some trouble to complete your request Please try again.
       </p>
       <div>
-        <button type="button">Retry</button>
+        <button onClick={this.GamingVideo} type="button">
+          Retry
+        </button>
       </div>
     </div>
   )
@@ -87,36 +96,50 @@ class GamingVideo extends Component {
     const {GamingVideosAll} = this.state
 
     return (
-      <div>
-        <ul className="UlUpper">
-          <li>
-            <ImageGame
-              src="https://images.pexels.com/photos/2323435/pexels-photo-2323435.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              alt="Gaming"
-            />
-          </li>
-          <li>
-            <Heading>Gaming</Heading>
-          </li>
-        </ul>
-        <ul className="ul">
-          {GamingVideosAll.map(each => (
-            <Link className="link" to={`/videos/${each.id}`} key={each.id}>
-              <li key={each.id}>
-                <div>
-                  <img
-                    className="eachGameImage"
-                    src={each.thumbNailUrl}
-                    alt="video thumbnail"
+      <ThemeContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+
+          return (
+            <div>
+              <ul className="UlUpper">
+                <li>
+                  <ImageGame
+                    src="https://images.pexels.com/photos/2323435/pexels-photo-2323435.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                    alt="Gaming"
                   />
-                </div>
-                <p>{each.title}</p>
-                <p>{each.viewsCount} Watching Worldwide</p>
-              </li>
-            </Link>
-          ))}
-        </ul>
-      </div>
+                </li>
+                <li>
+                  <Heading const colorHeadingGame={isDarkTheme}>
+                    Gaming
+                  </Heading>
+                </li>
+              </ul>
+              <UlGame const textColoring={isDarkTheme}>
+                {GamingVideosAll.map(each => (
+                  <Link
+                    className="link"
+                    to={`/videos/${each.id}`}
+                    key={each.id}
+                  >
+                    <Lists key={each.id} const listsColors={isDarkTheme}>
+                      <div>
+                        <img
+                          className="eachGameImage"
+                          src={each.thumbNailUrl}
+                          alt="video thumbnail"
+                        />
+                      </div>
+                      <p>{each.title}</p>
+                      <p>{each.viewsCount} Watching Worldwide</p>
+                    </Lists>
+                  </Link>
+                ))}
+              </UlGame>
+            </div>
+          )
+        }}
+      </ThemeContext.Consumer>
     )
   }
 

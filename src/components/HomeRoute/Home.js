@@ -28,6 +28,7 @@ export const BannerColumnText = styled.div`
   justify-content: space-around;
   height: 100%;
   width: 330px;
+  padding-left: 12px;
 `
 export const GetItNow = styled.button`
   height: 33px;

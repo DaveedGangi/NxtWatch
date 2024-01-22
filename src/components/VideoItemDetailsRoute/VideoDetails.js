@@ -6,8 +6,9 @@ export const RightSideVideo = styled.div`
 
 export const DivContainer = styled.div`
   color: Green;
-    overflow:scroll;
+  overflow-y:scroll;
   background-color: ${props => (props.ColorBg ? '#0f0f0f' : '#f9f9f9')};
+  color:${props => (props.ColorBg ? '#f9f9f9' : ' #0f0f0f')}
   height:580px;
   width:100%:
 `
@@ -32,15 +33,19 @@ export const ViewsAndYearForVideoDetails = styled.div`
 `
 export const LikeButtonVideoDetail = styled.button`
   border: 0px;
-  background-color: #ffffff;
+  background-color: transparent;
+  color: blue;
 `
 export const DisLikeButtonVideoDetail = styled.button`
   border: 0px;
-  background-color: #ffffff;
+  background-color: transparent;
+  color: blue;
 `
 export const SaveButtonVideoDetails = styled.button`
   border: 0px;
-  background-color: #ffffff;
+  background-color: transparent;
+  color: ${props => (props.colorTexts ? '#f9f9f9' : '#0f0f0f')};
+  cursor: pointer;
 `
 export const ImageProfileVideoDetails = styled.img`
   height: 44px;
@@ -49,4 +54,5 @@ export const ImageProfileVideoDetails = styled.img`
 `
 export const BottomForVideoDetails = styled.div`
   display: flex;
+  color: ${props => (props.Color ? '#f9f9f9' : '#0f0f0f')};
 `

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const LeftSideNavBar = styled.div`
   width: 200px;
-  height: 88vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -10,6 +10,10 @@ export const LeftSideNavBar = styled.div`
   color: ${props => (props.Colors ? '#ffffff ' : ' #000000 ')};
   background-color: ${props => (props.Colors ? '#0f0f0f ' : ' #f9f9f9 ')};
   background-size: cover;
+`
+
+export const DivColorLeftSide = styled.div`
+  color: ${props => (props.textColor ? '#ffffff' : '#000000')};
 `
 export const FaceBookImage = styled.img`
   height: 25px;

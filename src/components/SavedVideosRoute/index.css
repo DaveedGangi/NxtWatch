@@ -1,0 +1,46 @@
+.leftSide-savedVideos {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.savedBg {
+  width: 100%;
+  overflow-y: scroll;
+  height: 580px;
+}
+.no-videosFound {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 94px;
+}
+.no-videos {
+  height: 200px;
+  width: 300px;
+}
+.savedImageFlexing {
+  display: flex;
+  margin-bottom: 17px;
+  text-decoration: none;
+}
+.thumbnailSaved {
+  margin-right: 12px;
+  height: 200px;
+  width: 300px;
+}
+.viewsSaved {
+  display: flex;
+}
+.ulForSaved {
+  list-style-type: none;
+}
+.logo-Saved {
+  display: flex;
+}
+.fire-image {
+  height: 33px;
+  margin-top: 25px;
+  border-radius: 50px;
+  margin-right: 12px;
+}

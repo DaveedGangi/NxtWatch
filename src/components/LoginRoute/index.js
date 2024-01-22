@@ -14,8 +14,8 @@ import {
   LabelForPassword,
   InputCheckBox,
   LabelForShowPassword,
-  ErrorMsg,
   FormContainer,
+  ErrorMsg,
 } from './styledComponent'
 
 import './index.css'
@@ -53,9 +53,7 @@ class Login extends Component {
     if (response.ok === true) {
       this.successLogin(responsive.jwt_token)
     } else {
-      const responseToJsonFormat = await response.json()
-      console.log(responseToJsonFormat)
-      this.setState({errorMsg: responseToJsonFormat.error_msg})
+      this.setState({errorMsg: responsive.error_msg})
     }
   }
 
@@ -77,6 +75,12 @@ class Login extends Component {
     const {username, password, errorMsg, conditionToShowPassword} = this.state
     console.log(username)
     console.log(password)
+
+    const JwtTokens = Cookies.get('jwt_token')
+    if (JwtTokens !== undefined) {
+      const {history} = this.props
+      history.replace('/')
+    }
 
     const changeInputPasswordToText = conditionToShowPassword
       ? 'text'
@@ -100,6 +104,7 @@ class Login extends Component {
               type="text"
               id="UserName"
               onChange={this.sendInputUserName}
+              value={username}
             />
             <br />
             <br />
@@ -112,6 +117,7 @@ class Login extends Component {
               type={changeInputPasswordToText}
               id="PasswordLabel"
               onChange={this.sendInputPassword}
+              value={password}
             />
             <br />
             <br />

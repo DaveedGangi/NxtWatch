@@ -14,6 +14,7 @@ import NotFound from './components/NotFoundRoute'
 import './App.css'
 
 // Replace your code here
+
 class App extends Component {
   state = {
     isDarkTheme: false,
@@ -23,14 +24,19 @@ class App extends Component {
   }
 
   addToSavedVideos = videoDetails => {
+    console.log(videoDetails)
     const {savedVideos} = this.state
-    const videosObject = savedVideos.find(each => each.id === videoDetails)
-
-    if (videosObject) {
-      this.setState(prev => ({savedVideos: [...prev.savedVideos]}))
+    const getVideo = savedVideos.find(each => each.id === videoDetails.id)
+    if (getVideo === undefined) {
+      this.setState(prevState => ({
+        savedVideos: [...prevState.savedVideos, videoDetails],
+      }))
     } else {
-      this.setState({savedVideos: [...savedVideos, videoDetails]})
+      const updateVideo = savedVideos.filter(each => each.id !== getVideo.id)
+      this.setState({savedVideos: updateVideo})
     }
+
+    console.log(`savedVideos: ${savedVideos}`)
   }
 
   toggleTheme = () => {
@@ -61,6 +67,7 @@ class App extends Component {
           dataOfIdEach,
           savedVideos,
           isBanner,
+          savedToThisVideo: this.addToSavedVideos,
         }}
       >
         <Switch>

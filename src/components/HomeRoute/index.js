@@ -123,13 +123,9 @@ class Home extends Component {
     console.log(event)
   }
 
-  inputStore = event => {
-    this.setState({inputValue: event.target.value})
-  }
-
   renderLoaderView = () => (
     <div className="loader-container" data-testid="loader">
-      <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
+      <Loader type="ThreeDots" color="yellow" height="50" width="50" />
     </div>
   )
 
@@ -138,39 +134,53 @@ class Home extends Component {
       <div>
         <img
           src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
-          alt="failureView"
+          alt="failure view"
         />
       </div>
-      <p>Oops! Something Went Wrong</p>
+      <h1>Oops! Something Went Wrong</h1>
       <p>
         We are having some trouble to complete your request Please try again.
       </p>
       <div>
-        <button type="button">Retry</button>
+        <button onClick={this.showVideos} type="button">
+          Retry
+        </button>
       </div>
     </div>
   )
 
   notFound = () => (
-    <div>
+    <div className="no-searched">
       <div>
         <img
+          className="no-videosSearch"
           src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png"
           alt="no videos"
         />
       </div>
-      <p>No Search results found</p>
+      <h1>No Search results found</h1>
       <p>Try different key words or remove search filter</p>
       <div>
-        <button type="button">Retry</button>
+        <button onClick={this.showVideos} type="button">
+          Retry
+        </button>
       </div>
     </div>
   )
 
+  inputOnKeyDown = event => {
+    if (event.key === 'Enter') {
+      this.renderSuccessView()
+    }
+  }
+
+  inputStore = event => {
+    this.setState({inputValue: event.target.value})
+  }
+
   renderSuccessView = () => {
     const {videosStore, inputValue} = this.state
     console.log(inputValue)
-
     const VideosAllData = videosStore.filter(each =>
       each.title.toLowerCase().includes(inputValue.toLowerCase()),
     )
@@ -192,14 +202,14 @@ class Home extends Component {
                     <div>
                       <ImageThumbNail
                         src={each.thumbNailUrl}
-                        alt={each.thumbNailUrl}
+                        alt="video thumbnail"
                       />
                     </div>
                     <ProfileAndTitle const textColors={isDarkTheme}>
                       <div>
                         <ImageProfileNameHome
                           src={each.profileImage}
-                          alt={each.profileImage}
+                          alt="channel logo"
                         />
                       </div>
                       <div>
@@ -269,9 +279,15 @@ class Home extends Component {
                         id="Search"
                         placeholder="Search"
                         type="search"
+                        value={inputValue}
+                        onKeyDown={this.inputOnKeyDown}
                       />
                       <LabelForSearch htmlFor="Search">
-                        <ButtonSearch data-testid="searchButton" type="button">
+                        <ButtonSearch
+                          onClick={this.renderSuccessView}
+                          data-testid="searchButton"
+                          type="button"
+                        >
                           <MdSearch />
                           {/* */}
                         </ButtonSearch>

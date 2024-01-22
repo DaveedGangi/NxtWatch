@@ -13,6 +13,7 @@ import {
   TwitterImage,
   LinkdinImage,
   FaceBookTwitterLinkBg,
+  DivColorLeftSide,
 } from './LeftSideNav'
 
 import './index.css'
@@ -25,31 +26,43 @@ const LeftSideNav = () => (
       return (
         <div>
           <LeftSideNavBar const Colors={isDarkTheme}>
-            <div>
+            <DivColorLeftSide const textColor={isDarkTheme}>
               <div>
-                <Link className="link" to="/">
+                <Link
+                  className={isDarkTheme ? 'linkToWhite' : 'linkToDark'}
+                  to="/"
+                >
                   <AiFillHome /> Home
                 </Link>
               </div>
               <br />
               <div>
-                <Link className="link" to="/trending">
+                <Link
+                  className={isDarkTheme ? 'linkToWhite' : 'linkToDark'}
+                  to="/trending"
+                >
                   <HiFire /> Trending
                 </Link>
               </div>
               <br />
               <div>
-                <Link className="link" to="/gaming">
+                <Link
+                  className={isDarkTheme ? 'linkToWhite' : 'linkToDark'}
+                  to="/gaming"
+                >
                   <IoGameController /> Gaming
                 </Link>
               </div>
               <br />
               <div>
-                <Link className="link" to="/saved-videos">
+                <Link
+                  className={isDarkTheme ? 'linkToWhite' : 'linkToDark'}
+                  to="/saved-videos"
+                >
                   <CgPlayListAdd /> Saved videos
                 </Link>
               </div>
-            </div>
+            </DivColorLeftSide>
             <div>
               <p>CONTACT US</p>
               <FaceBookTwitterLinkBg>

@@ -19,7 +19,8 @@ import {
   Heading,
   ImageTrending,
   TrendingBg,
-  ParaName,
+  UlTrend,
+  ListsTrend,
 } from './Trends'
 
 import ThemeContext from '../context/ThemeContext'
@@ -81,15 +82,17 @@ class Trending extends Component {
       <div>
         <img
           src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
-          alt="failureView"
+          alt="failure view"
         />
       </div>
-      <p>Oops! Something Went Wrong</p>
+      <h1>Oops! Something Went Wrong</h1>
       <p>
         We are having some trouble to complete your request Please try again.
       </p>
       <div>
-        <button type="button">Retry</button>
+        <button onClick={this.GetTrendingVideos} type="button">
+          Retry
+        </button>
       </div>
     </div>
   )
@@ -97,46 +100,58 @@ class Trending extends Component {
   renderSuccessView = () => {
     const {TrendingVideos} = this.state
     return (
-      <div>
-        <ul className="UL">
-          <li>
-            <ImageTrending
-              src="https://media.istockphoto.com/photos/human-crowd-forming-bar-graph-and-arrow-finance-concept-picture-id1135795513?k=6&m=1135795513&s=170667a&w=0&h=bRk0C_9QbqSWeaSF5yumhHTqafwQgAPvatUvwhpLY9w="
-              alt="trending"
-            />
-          </li>
-          <li>
-            {' '}
-            <Heading>Trending</Heading>
-          </li>
-        </ul>
+      <ThemeContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
 
-        <ul className="ul">
-          {TrendingVideos.map(each => (
-            <Link className="link" to={`/videos/${each.id}`} key={each.id}>
-              <li className="li" key={each.id}>
-                <div>
-                  <img
-                    className="trendImage"
-                    src={each.thumbNailUrl}
-                    alt="video thumbnail"
+          return (
+            <div>
+              <ul className="UL">
+                <li>
+                  <ImageTrending
+                    src="https://media.istockphoto.com/photos/human-crowd-forming-bar-graph-and-arrow-finance-concept-picture-id1135795513?k=6&m=1135795513&s=170667a&w=0&h=bRk0C_9QbqSWeaSF5yumhHTqafwQgAPvatUvwhpLY9w="
+                    alt="trending"
                   />
-                </div>
-                <div>
-                  <p>{each.title}</p>
+                </li>
+                <li>
+                  {' '}
+                  <Heading>Trending</Heading>
+                </li>
+              </ul>
 
-                  <ParaName>{each.name}</ParaName>
+              <UlTrend const ulTrend={isDarkTheme}>
+                {TrendingVideos.map(each => (
+                  <Link
+                    className="link"
+                    to={`/videos/${each.id}`}
+                    key={each.id}
+                  >
+                    <ListsTrend const ulTrend={isDarkTheme} key={each.id}>
+                      <div>
+                        <img
+                          className="trendImage"
+                          src={each.thumbNailUrl}
+                          alt="video thumbnail"
+                        />
+                      </div>
+                      <div>
+                        <p>{each.title}</p>
 
-                  <div>
-                    <p>{each.viewsCount}</p>
-                    <p>{each.year}</p>
-                  </div>
-                </div>
-              </li>
-            </Link>
-          ))}
-        </ul>
-      </div>
+                        <p>{each.channelName}</p>
+
+                        <div>
+                          <p>{each.viewsCount}</p>
+                          <p>{each.year}</p>
+                        </div>
+                      </div>
+                    </ListsTrend>
+                  </Link>
+                ))}
+              </UlTrend>
+            </div>
+          )
+        }}
+      </ThemeContext.Consumer>
     )
   }
 

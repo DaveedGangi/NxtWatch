@@ -14,7 +14,7 @@ export const BgForLoginCard = styled.div`
   height: 450px;
   box-shadow: 4px 8px 16px 32px #e2e8f0;
   border-radius: 12px;
-  padding: 77px;
+  padding: 20px 44px 22px 77px;
 `
 export const ImageLoginDiv = styled.div`
   text-align: center;

@@ -14,3 +14,14 @@
   justify-content: center;
   align-items: center;
 }
+.no-videosSearch {
+  height: 200px;
+  width: 300px;
+}
+.no-searched {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: olive;
+}

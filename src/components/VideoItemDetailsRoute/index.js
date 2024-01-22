@@ -2,6 +2,8 @@ import {Component} from 'react'
 
 import Cookies from 'js-cookie'
 
+import Loader from 'react-loader-spinner'
+
 import {BiLike, BiDislike} from 'react-icons/bi'
 import {CgPlayListAdd} from 'react-icons/cg'
 
@@ -30,14 +32,21 @@ import {
   BottomForVideoDetails,
 } from './VideoDetails'
 
+const dataCondition = {
+  success: 'SUCCESS',
+  failure: 'FAILURE',
+  loader: 'LOADER',
+}
+
 class VideoDetails extends Component {
-  state = {videoDetailsData: []}
+  state = {videoDetailsData: {}, conditionCheck: 'initial'}
 
   componentDidMount() {
     this.GetVideo()
   }
 
   GetVideo = async () => {
+    this.setState({conditionCheck: dataCondition.loader})
     const {match} = this.props
     const {params} = match
     const {id} = params
@@ -54,32 +63,70 @@ class VideoDetails extends Component {
     console.log(response)
     const responseToJson = await response.json()
     console.log(responseToJson)
-    const VideoUrl = responseToJson.video_details.video_url
-    console.log(VideoUrl)
 
-    const DataOfVideo = {
-      videoUrl: responseToJson.video_details.video_url,
-      id: responseToJson.video_details.id,
-      title: responseToJson.video_details.title,
-      viewCount: responseToJson.video_details.view_count,
-      years: formatDistanceToNow(
-        new Date(responseToJson.video_details.published_at),
-      ),
-      ProfileImage: responseToJson.video_details.channel.profile_image_url,
-      channelName: responseToJson.video_details.channel.name,
-      subscribers: responseToJson.video_details.channel.subscriber_count,
-      description: responseToJson.video_details.description,
+    if (response.ok === true) {
+      const VideoUrl = responseToJson.video_details.video_url
+      console.log(VideoUrl)
+
+      const DataOfVideo = {
+        videoUrl: responseToJson.video_details.video_url,
+        id: responseToJson.video_details.id,
+        title: responseToJson.video_details.title,
+        thumbNailUrl: responseToJson.video_details.thumbnail_url,
+        viewCount: responseToJson.video_details.view_count,
+        years: formatDistanceToNow(
+          new Date(responseToJson.video_details.published_at),
+        ),
+        ProfileImage: responseToJson.video_details.channel.profile_image_url,
+        channelName: responseToJson.video_details.channel.name,
+        subscribers: responseToJson.video_details.channel.subscriber_count,
+        description: responseToJson.video_details.description,
+      }
+
+      this.setState({
+        videoDetailsData: DataOfVideo,
+        conditionCheck: dataCondition.success,
+      })
+    } else {
+      this.setState({conditionCheck: dataCondition.failure})
     }
-
-    this.setState({videoDetailsData: DataOfVideo})
   }
 
-  render() {
+  renderLoaderView = () => (
+    <div className="loader-container" data-testid="loader">
+      <Loader type="ThreeDots" color="green" height="50" width="50" />
+    </div>
+  )
+
+  renderFailureView = () => (
+    <div>
+      <div>
+        <img
+          src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
+          alt="failure view"
+        />
+      </div>
+      <h1>Oops! Something Went Wrong</h1>
+      <p>
+        We are having some trouble to complete your request. Please try again.
+      </p>
+      <div>
+        <button onClick={this.GetVideo} type="button">
+          Retry
+        </button>
+      </div>
+    </div>
+  )
+
+  renderSuccessView = () => {
     const {videoDetailsData} = this.state
     return (
       <ThemeContext.Consumer>
         {value => {
-          const {isDarkTheme} = value
+          const {isDarkTheme, savedToThisVideo} = value
+          const savedThisVideo = () => {
+            savedToThisVideo(videoDetailsData)
+          }
 
           return (
             <div>
@@ -116,18 +163,23 @@ class VideoDetails extends Component {
                           </DisLikeButtonVideoDetail>
                         </div>
                         <div>
-                          <SaveButtonVideoDetails type="button">
+                          <SaveButtonVideoDetails
+                            const
+                            colorTexts={isDarkTheme}
+                            onClick={savedThisVideo}
+                            type="button"
+                          >
                             <CgPlayListAdd /> Save
                           </SaveButtonVideoDetails>
                         </div>
                       </LikeRightSideFlex>
                     </LikesAndDislikes>
                     <hr />
-                    <BottomForVideoDetails>
+                    <BottomForVideoDetails const Color={isDarkTheme}>
                       <div>
                         <ImageProfileVideoDetails
                           src={videoDetailsData.ProfileImage}
-                          alt={videoDetailsData.ProfileImage}
+                          alt="channel logo"
                         />
                       </div>
                       <div>
@@ -145,5 +197,33 @@ class VideoDetails extends Component {
       </ThemeContext.Consumer>
     )
   }
+
+  conditionChecking = () => {
+    const {conditionCheck} = this.state
+
+    switch (conditionCheck) {
+      case 'SUCCESS':
+        return this.renderSuccessView()
+
+      case 'FAILURE':
+        return this.renderFailureView()
+
+      case 'LOADER':
+        return this.renderLoaderView()
+
+      default:
+        return null
+    }
+  }
+
+  render() {
+    const JwtToken = Cookies.get('jwt_token')
+    if (JwtToken === undefined) {
+      const {history} = this.props
+      history.replace('/login')
+    }
+    return <div>{this.conditionChecking()}</div>
+  }
 }
+
 export default VideoDetails
